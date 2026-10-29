@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { CERT_C_ATLAS_014, CONTRACT_4_2, PHOTO_12, SAM_PROMPTS, SHEET_7 } from "@/data/atlas";
 import { crossCheck } from "@/lib/meta";
-import { updateAudit, useAudit } from "@/lib/store";
+import { addLedger, updateAudit, useAudit, type AuditState } from "@/lib/store";
 
 import { MaskView, NeedsStep } from "../ui";
 
@@ -37,7 +37,17 @@ export default function MasksPage() {
         masks: audit.masks!,
         texts: { contract: CONTRACT_4_2, blueprint: SHEET_7, site_photo: PHOTO_12, certificate: CERT_C_ATLAS_014 },
       });
-      updateAudit((s) => ({ ...s, findings }));
+      updateAudit((s) => {
+        let next: AuditState = { ...s, findings };
+        for (const f of findings) {
+          next = addLedger(next, {
+            actor: "CrossSight (mock Spark)",
+            action: `${f.finding_id} flagged — ${f.severity}: ${f.title}`,
+            finding_id: f.finding_id,
+          });
+        }
+        return next;
+      });
       router.push("/findings");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

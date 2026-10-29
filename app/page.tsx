@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import { ATLAS_PACK, IMAGES, SAM_PROMPTS } from "@/data/atlas";
 import { runSam } from "@/lib/meta";
-import { updateAudit, useAudit } from "@/lib/store";
+import { addLedger, updateAudit, useAudit } from "@/lib/store";
 
 type Phase = "idle" | "masking" | "done" | "error";
 
@@ -29,16 +29,23 @@ export default function UploadPage() {
     try {
       const images = [IMAGES.sheet7, IMAGES.photo12];
       const masks = await Promise.all(images.map((image) => runSam({ image, prompts: SAM_PROMPTS[image] })));
-      updateAudit((s) => ({
-        ...s,
-        auditRunAt: new Date().toISOString(),
-        masks,
-        findings: null,
-        actions: {},
-        verifications: {},
-        findingState: {},
-        specChange: null,
-      }));
+      const at = new Date().toISOString();
+      updateAudit((s) =>
+        addLedger(
+          {
+            ...s,
+            auditRunAt: at,
+            masks,
+            findings: null,
+            actions: {},
+            verifications: {},
+            findingState: {},
+            specChange: null,
+            ledger: [],
+          },
+          { at, actor: "CrossSight (mock SAM)", action: "Audit run on the Project Atlas pack — masks produced", finding_id: "—" },
+        ),
+      );
       setPhase("done");
       router.push("/masks");
     } catch (e) {

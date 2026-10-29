@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import { IMAGES } from "@/data/atlas";
 import { verifyFix } from "@/lib/meta";
-import { humanAction, recordAction, updateAudit, useAudit } from "@/lib/store";
+import { addLedger, humanAction, recordAction, updateAudit, useAudit } from "@/lib/store";
 import type { VerifyResult } from "@/lib/types";
 
 import { ConfidenceBadge, MaskView, NeedsStep } from "../ui";
@@ -44,15 +44,33 @@ export default function VerifyPage() {
     setBusy(true);
     try {
       const result = await verifyFix({ finding_id: FINDING_ID, image, upload });
-      updateAudit((s) => ({
-        ...s,
-        verifications: { ...s.verifications, [FINDING_ID]: [...(s.verifications[FINDING_ID] ?? []), result] },
-        // A failed check reopens the finding with new proof. Closing always needs a human.
-        findingState:
-          result.verdict === "does_not_match" ? { ...s.findingState, [FINDING_ID]: "reopened" } : s.findingState,
-      }));
+      updateAudit((s) => {
+        const next = {
+          ...s,
+          verifications: { ...s.verifications, [FINDING_ID]: [...(s.verifications[FINDING_ID] ?? []), result] },
+          // A failed check reopens the finding with new proof. Closing always needs a human.
+          findingState:
+            result.verdict === "does_not_match" ? { ...s.findingState, [FINDING_ID]: "reopened" as const } : s.findingState,
+        };
+        // A failed check is logged by recordAction below; the other outcomes are logged here.
+        if (result.verdict === "matches_spec") {
+          return addLedger(next, {
+            actor: "CrossSight (mock SAM)",
+            action: "Fix verified — photo matches the spec; awaiting a human to close the finding",
+            finding_id: FINDING_ID,
+          });
+        }
+        if (result.verdict === "needs_human_review") {
+          return addLedger(next, {
+            actor: "CrossSight (mock SAM)",
+            action: "Fix check needs human review — no status changed",
+            finding_id: FINDING_ID,
+          });
+        }
+        return next;
+      });
       if (result.verdict === "does_not_match") {
-        recordAction(FINDING_ID, {}, `Fix check failed — finding reopened (${result.detected})`);
+        recordAction(FINDING_ID, {}, `Fix check failed — finding reopened (${result.detected})`, "CrossSight (mock SAM)");
       }
     } finally {
       setBusy(false);

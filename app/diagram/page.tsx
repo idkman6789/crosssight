@@ -33,8 +33,11 @@ export default function DiagramPage() {
           <Link className="btn ghost" href="/verify">
             ← Back to Verify
           </Link>
-          <Link className="btn" href="/findings">
+          <Link className="btn ghost" href="/findings">
             Back to Findings
+          </Link>
+          <Link className="btn" href="/ledger">
+            Ledger →
           </Link>
         </div>
       </div>

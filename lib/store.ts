@@ -6,6 +6,7 @@
 
 import { useSyncExternalStore } from "react";
 
+import { appendEntry, type LedgerEntry, type LedgerFields } from "./ledger";
 import type { Finding, HumanStatus, SamMask, VerifyResult } from "./types";
 
 export interface HumanAction {
@@ -27,6 +28,8 @@ export interface AuditState {
   findingState: Record<string, FindingState>;
   /** Change-propagation teaser: the what-if spec change last applied. */
   specChange: { from: string; to: string; at: string } | null;
+  /** Hash-linked trail of the demo's events (ledger teaser, mock data). */
+  ledger: LedgerEntry[];
 }
 
 const KEY = "crosssight.audit.v1";
@@ -40,7 +43,13 @@ const EMPTY: AuditState = {
   verifications: {},
   findingState: {},
   specChange: null,
+  ledger: [],
 };
+
+/** Returns the state with one more ledger entry linked to the previous one. */
+export function addLedger(s: AuditState, f: LedgerFields): AuditState {
+  return { ...s, ledger: appendEntry(s.ledger ?? [], f) };
+}
 
 let state: AuditState = typeof window === "undefined" ? EMPTY : load();
 const listeners = new Set<() => void>();
@@ -81,11 +90,16 @@ export function humanAction(s: AuditState, id: string): HumanAction {
   return s.actions[id] ?? { status: "Awaiting human approval", assignee: "", deadline: "", history: [] };
 }
 
-/** Records a human decision on an action packet. */
-export function recordAction(id: string, patch: Partial<HumanAction>, event?: string) {
+/**
+ * Records a decision on an action packet. An `event` also lands in the ledger,
+ * by a human reviewer unless `actor` says otherwise.
+ */
+export function recordAction(id: string, patch: Partial<HumanAction>, event?: string, actor = "Human reviewer") {
   updateAudit((s) => {
     const cur = humanAction(s, id);
-    const history = event ? [...cur.history, { at: new Date().toISOString(), event }] : cur.history;
-    return { ...s, actions: { ...s.actions, [id]: { ...cur, ...patch, history } } };
+    const at = new Date().toISOString();
+    const history = event ? [...cur.history, { at, event }] : cur.history;
+    const next = { ...s, actions: { ...s.actions, [id]: { ...cur, ...patch, history } } };
+    return event ? addLedger(next, { at, actor, action: event, finding_id: id }) : next;
   });
 }

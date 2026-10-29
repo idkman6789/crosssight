@@ -234,6 +234,16 @@ details.json pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-ra
 .notice { background: var(--accent-soft); border: 1px solid #bfdbfe; color: #1e3a8a; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; }
 .warn { background: var(--review-bg); border-color: #fde047; color: #713f12; }
 
+/* ---------- ledger ---------- */
+
+.ledger-table td { vertical-align: top; }
+.ledger-table tbody tr { cursor: default; }
+.ledger-table tbody tr:hover { background: none; }
+.ledger-table .num { width: 40px; }
+.ledger-table td:nth-child(4), .ledger-table td:nth-child(5), .ledger-table td:nth-child(6) { white-space: nowrap; }
+.ledger-broken { background: var(--bad-bg); }
+.ledger-broken:hover { background: var(--bad-bg) !important; }
+
 /* ---------- corrected-detail diagram ---------- */
 
 .diagram-grid { align-items: start; }

@@ -18,6 +18,7 @@ const STEPS: { href: string; label: string; hint: string; done: (s: AuditState) 
   },
   { href: "/verify", label: "Verify", hint: "Fix photo check", done: (s) => Object.keys(s.verifications).length > 0 },
   { href: "/diagram", label: "Corrected detail", hint: "Muse Image · placeholder", done: (s) => s.findingState["CS-001"] === "closed" },
+  { href: "/ledger", label: "Ledger", hint: "Proof trail · placeholder", done: (s) => (s.ledger ?? []).some((e) => e.action.startsWith("Finding closed")) },
 ];
 
 export function StepNav() {
