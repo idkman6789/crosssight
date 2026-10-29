@@ -8,19 +8,22 @@ export const MOCK_MASKS: Record<string, SamMask> = {
   [IMAGES.sheet7]: {
     image: IMAGES.sheet7,
     regions: [
-      { id: "sheet7-r1", label: "riser cable run R-1", prompt: "riser cable run", bbox: [482, 137, 39, 703], confidence: 0.94 },
+      { id: "sheet7-r1", label: "riser cable run R-1", prompt: "riser cable run", bbox: [471, 151, 54, 708], confidence: 0.94 },
+      { id: "sheet7-r2", label: "cable label R-1 TYPE B", prompt: "cable label", bbox: [569, 405, 177, 29], confidence: 0.9 },
     ],
   },
   [IMAGES.photo12]: {
     image: IMAGES.photo12,
     regions: [
-      { id: "photo12-r1", label: "installed riser cable", prompt: "installed riser cable", bbox: [387, 47, 195, 906], confidence: 0.91 },
+      { id: "photo12-r1", label: "installed riser cable", prompt: "installed riser cable", bbox: [332, 156, 301, 781], confidence: 0.91 },
+      { id: "photo12-r2", label: "cable jacket marking TYPE C", prompt: "cable jacket marking", bbox: [491, 487, 28, 83], confidence: 0.88 },
     ],
   },
   [IMAGES.fixPhoto]: {
     image: IMAGES.fixPhoto,
     regions: [
-      { id: "fix-r1", label: "installed riser cable", prompt: "installed riser cable", bbox: [462, 31, 45, 930], confidence: 0.92 },
+      { id: "fix-r1", label: "installed riser cable", prompt: "installed riser cable", bbox: [475, 23, 26, 977], confidence: 0.92 },
+      { id: "fix-r2", label: "cable jacket marking TYPE A", prompt: "cable jacket marking", bbox: [478, 660, 24, 114], confidence: 0.9 },
     ],
   },
 };

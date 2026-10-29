@@ -174,14 +174,29 @@ h3 { font-size: 14px; margin: 0 0 6px; }
 
 /* The wrapper hugs the image, so the SVG overlay always matches its real aspect ratio. */
 .mask-view { position: relative; display: block; width: fit-content; max-width: 100%; margin: 0 auto; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #e2e8f0; line-height: 0; }
-.mask-view img { display: block; width: auto; height: auto; max-width: 100%; max-height: 460px; }
+.mask-view img { display: block; width: auto; height: auto; max-width: 100%; max-height: 520px; }
 .mask-view svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .mask-view.thumb img { max-width: 260px; max-height: 200px; }
-.mask-rect { fill: rgba(37, 99, 235, 0.18); stroke: #2563eb; stroke-width: 6; }
+.mask-view.zoomed { margin: 0; border: 0; }
+.mask-view.zoomed img { max-width: 94vw; max-height: 90vh; }
+.mask-open { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; font: inherit; }
+.mask-rect { fill: rgba(37, 99, 235, 0.18); stroke: #2563eb; stroke-width: 2; }
 .mask-rect.bad { fill: rgba(234, 88, 12, 0.16); stroke: #ea580c; }
 .mask-rect.good { fill: rgba(22, 163, 74, 0.16); stroke: #16a34a; }
-.mask-tag { fill: #2563eb; }
-.mask-tag-text { fill: #fff; font: 600 30px system-ui, sans-serif; }
+/* Labels are HTML, not SVG text, so they never stretch with the image's aspect ratio. */
+.mask-tag {
+  position: absolute; transform: translateY(-100%); white-space: nowrap; pointer-events: none;
+  background: #2563eb; color: #fff; font: 600 11px/1.3 system-ui, sans-serif; padding: 2px 6px; border-radius: 4px;
+}
+.mask-tag.bad { background: #ea580c; }
+.mask-tag.good { background: #16a34a; }
+.mask-tag.inside { transform: none; }
+.zoomed .mask-tag { font-size: 14px; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 50; background: rgba(15, 23, 42, 0.86);
+  display: flex; align-items: center; justify-content: center; cursor: zoom-out;
+}
+.lightbox-close { position: absolute; top: 16px; right: 16px; }
 .region-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
 .region-table th, .region-table td { text-align: left; padding: 5px 6px; border-top: 1px solid var(--border); }
 .region-table th { color: var(--muted); font-weight: 600; font-size: 12px; }
