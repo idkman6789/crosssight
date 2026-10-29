@@ -234,6 +234,22 @@ details.json pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-ra
 .notice { background: var(--accent-soft); border: 1px solid #bfdbfe; color: #1e3a8a; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; }
 .warn { background: var(--review-bg); border-color: #fde047; color: #713f12; }
 
+/* ---------- corrected-detail diagram ---------- */
+
+.diagram-grid { align-items: start; }
+.detail-svg { width: 100%; height: auto; display: block; }
+.d-bg { fill: #f8fafc; stroke: var(--border); }
+.d-slab { fill: #cbd5e1; }
+.d-sleeve { fill: #fed7aa; stroke: #ea580c; stroke-width: 1.5; }
+.d-tray { fill: #e2e8f0; stroke: #64748b; stroke-width: 3; }
+.d-rung { stroke: #94a3b8; stroke-width: 2; }
+.d-cable { fill: #15803d; }
+.d-tag { fill: #f0fdf4; stroke: #15803d; stroke-width: 1.5; }
+.d-tag-text { fill: #14532d; font: 700 14px system-ui, sans-serif; }
+.d-callout line { stroke: #64748b; stroke-width: 1.5; }
+.d-label { fill: var(--text); font: 600 15px system-ui, sans-serif; }
+.d-small { fill: #64748b; font: 12px system-ui, sans-serif; }
+
 /* ---------- portfolio ---------- */
 
 .tile-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }

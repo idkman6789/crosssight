@@ -17,6 +17,7 @@ const STEPS: { href: string; label: string; hint: string; done: (s: AuditState) 
     done: (s) => Object.values(s.actions).some((a) => a.status !== "Awaiting human approval"),
   },
   { href: "/verify", label: "Verify", hint: "Fix photo check", done: (s) => Object.keys(s.verifications).length > 0 },
+  { href: "/diagram", label: "Corrected detail", hint: "Muse Image · placeholder", done: (s) => s.findingState["CS-001"] === "closed" },
 ];
 
 export function StepNav() {

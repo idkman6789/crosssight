@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 import { IMAGES } from "@/data/atlas";
@@ -80,7 +81,12 @@ export default function VerifyPage() {
 
   return (
     <>
-      <h1>Fix verification</h1>
+      <div className="spread">
+        <h1>Fix verification</h1>
+        <Link className="btn ghost" href="/diagram">
+          Corrected detail →
+        </Link>
+      </div>
       <p className="lede">
         Upload a photo of the corrected riser run. SAM 3.1 masks the installed cable and checks it against Contract
         §4.2. A failed check reopens the finding with new proof. Closing it always takes a person.
