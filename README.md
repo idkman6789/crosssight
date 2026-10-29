@@ -18,6 +18,7 @@ Theme: **Push the Frontier** · Models: **SAM 3.1**, **Muse Spark**, **Muse Imag
   - `lib/meta.ts` — the only file that talks to the Meta Model API, with every result cached by input hash. On Day 1 it runs in mock mode only; live calls are not wired.
   - Structured findings (JSON only) with citations, SAM mask references, impact, and an action packet that always starts at "Awaiting human approval".
   - Human-only Approve / Dismiss / Assign, and fix-photo verification that reopens a finding on a failed check and closes it only when a person confirms.
+  - Portfolio teaser (`/portfolio`, mock data only): four fictional projects with fictional findings in the same JSON shape. Totals by severity, a status per project computed from severity counts only, the most common issue type, and click-to-filter by project and severity.
   - Change propagation teaser: change the riser cable spec (Type A → Type B) and list every pack item it touches, computed only from the pack. Where the pack proves fewer items than expected, it says "showing proven impacts only".
 - **What is fictional sample data:** the Project Atlas pack (Contract §4.2, Blueprint Sheet 7, Site Photo 12, the fix photo, certificate C-Atlas-014), the fictional images in `public/pack/` (Sheet 7, Photo 12, fix photo), and the mock masks and findings in `lib/mock.ts`.
 
@@ -38,6 +39,7 @@ Open http://localhost:3000. Mock mode is the default (`META_MODE=mock`), so no M
 4. **Change spec** (teaser) — change §4.2 from Type A to Type B and click **Apply change**. The affected blueprints, photos, cost, and certification are listed, each with its pack source.
 5. **Actions** — set an assignee and deadline, then Approve / Dismiss / Assign.
 6. **Verify** — submit the sample fix photo; a person closes the finding. Submit the "not replaced" sample and the finding reopens with new proof.
+7. **Portfolio** (teaser) — open **Portfolio** in the sidebar, then click a project or a severity to filter its findings.
 
 ## Guardrails
 
@@ -45,4 +47,4 @@ CrossSight flags risks for an engineer, lawyer, or safety officer to review. It 
 
 ## Roadmap (not built)
 
-Full change propagation (schedules, budgets, more blueprints), video walkthrough keyframes, portfolio dashboard, ledger export, living twin, other industries and audit types, integrations, SSO/VPC.
+Full change propagation (schedules, budgets, more blueprints), video walkthrough keyframes, a portfolio dashboard on real audit results with contractor and supplier scorecards and pattern alerts, ledger export, living twin, other industries and audit types, integrations, SSO/VPC.

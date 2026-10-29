@@ -42,6 +42,14 @@ export function StepNav() {
           );
         })}
       </ol>
+      <div className="nav-section">Teasers</div>
+      <Link href="/portfolio" className={`step${pathname === "/portfolio" ? " active" : ""}`}>
+        <span className="step-num">▦</span>
+        <span>
+          <span className="step-label">Portfolio</span>
+          <span className="step-hint">4 fictional projects</span>
+        </span>
+      </Link>
       <button className="btn ghost small reset" onClick={resetAudit}>
         Reset demo
       </button>

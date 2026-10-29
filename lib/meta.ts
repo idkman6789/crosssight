@@ -12,6 +12,8 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { MOCK_FINDINGS, MOCK_MASKS, MOCK_VERIFY } from "./mock";
+import { MOCK_PORTFOLIO } from "./mock-portfolio";
+import type { PortfolioData } from "./portfolio";
 import type { Finding, SamMask, VerifyResult } from "./types";
 
 type Mode = "mock" | "live";
@@ -61,6 +63,14 @@ async function cached<T>(op: string, input: unknown, run: () => Promise<T>): Pro
 
 export async function getMetaMode(): Promise<Mode> {
   return mode();
+}
+
+/**
+ * Portfolio teaser: fictional findings for four fictional projects.
+ * Makes no Meta call in any mode — it only reads the fictional sample data.
+ */
+export async function getPortfolio(): Promise<PortfolioData> {
+  return MOCK_PORTFOLIO;
 }
 
 /** SAM 3.1: image + text prompts → mask regions. */
