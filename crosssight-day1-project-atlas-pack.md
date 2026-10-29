@@ -10,7 +10,7 @@ with the master spec, the master spec wins.
 blueprint descriptions, photos, and certificates below are invented for
 this demo. Label every screen, README section, and video frame that
 shows them: "Fictional sample pack for demo only." No real company data,
-no Luke VAULT code, no pre-Oct 26 CRM / Elite code.
+no code from any other person's project, no pre-Oct 26 CRM / Elite code.
 
 ## Day 1 pass test (from the master spec, Oct 29)
 
@@ -121,7 +121,7 @@ from the pack, show only the proven subset and say so.
 
 ## Day 1 order of work (first 3 actions, in order)
 
-1. Fresh repo only (no old code, no VAULT code). Skeleton: upload pack
+1. Fresh repo only (no old code, no code from any other person's project). Skeleton: upload pack
    → SAM mask → findings page shell, with mock mode working end to end.
 2. SAM live checkpoint: run the 3 photos above, twice each. Save every
    mask JSON to cache by input hash. Pass = clean twice, all 3.

@@ -12,7 +12,7 @@ This file is the single source of truth for every Claude Code agent working on C
 
 CrossSight is an Enterprise Truth Engine. A big company uploads a project pack — contracts, blueprints, site photos, inspection videos, schedules, budgets, tickets, certifications — and CrossSight finds where they disagree with each other, proves it, and turns it into an action.
 
-It is NOT a document search box (that is VAULT, and that is Basic RAG). It is an audit engine.
+It is NOT a document search box (that is Basic RAG). It is an audit engine.
 
 Full capability list — preserved in full, even though only the Core is demoed live:
 
@@ -39,7 +39,7 @@ Guardrails that make it sellable — never remove these:
 
 From the Discord rules provided 2026-10-29. Breaking these can disqualify the project.
 
-- **New work only, Oct 26 – Nov 4:** All code, features, and functionality presented must be built during the event. Fresh repo started for CrossSight. Do NOT copy in the pre-Oct 26 CRM demo, Elite Roofing demo, or saas-crm architecture, and do NOT copy Luke's VAULT repo, roadmap, or code. Standard frameworks (Next.js, Supabase, Vercel) are tools, not the project.
+- **New work only, Oct 26 – Nov 4:** All code, features, and functionality presented must be built during the event. Fresh repo started for CrossSight. Do NOT copy in the pre-Oct 26 CRM demo, Elite Roofing demo, or saas-crm architecture, and do NOT copy any other person's or project's repo, roadmap, or code. Standard frameworks (Next.js, Supabase, Vercel) are tools, not the project.
 - **Identify contributions:** README must have a "Built During Hackathon" section: solo entrant, Indie track, built Oct 29 – Nov 4, 2026, built with Claude Code as a coding tool directed and verified by the solo entrant, what was built, and what is fictional sample data. Demo video must show only features built during the event.
 - **Public repo:** Repo must be public before submission. No private repo.
 - **Team/track:** Solo, Indie Developer track only, one submitter. AI agents are tools, NOT team members — do not list them as team members.
@@ -129,7 +129,7 @@ If SAM fails on Oct 29, do NOT restart the idea. Pivot inside CrossSight: text +
 - 1:40–2:10: Action packet: assign, approve, RFI draft. Fix photo uploaded, finding verifies closed.
 - 2:10–2:35: Finding 2: expired certificate. Ledger export packet shown.
 - 2:35–2:50: Teaser (only if working): video clip or portfolio dashboard.
-- 2:50–3:00: "VAULT finds documents. CrossSight finds mistakes, fixes them, watches the site, and proves it forever." + "Fictional sample pack for demo only."
+- 2:50–3:00: "Other tools find documents. CrossSight finds mistakes, fixes them, watches the site, and proves it forever." + "Fictional sample pack for demo only."
 
 ## 8. Submission checklist — Nov 4, before 9:00 PM ET
 
@@ -137,5 +137,5 @@ If SAM fails on Oct 29, do NOT restart the idea. Pivot inside CrossSight: text +
 - [ ] Working demo video link, 2:50–3:00
 - [ ] Solo team member added, Indie track only
 - [ ] README: Push the Frontier theme, Muse Spark + SAM 3.1 + Muse Image, Built During Hackathon section, fictional data disclaimer, how to run, how to reproduce the demo with the sample pack
-- [ ] No old CRM/Elite code, no Luke VAULT code, no real company data, no legal-advice claims
+- [ ] No old CRM/Elite code, no code from any other person's project, no real company data, no legal-advice claims
 - [ ] Submission via https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit

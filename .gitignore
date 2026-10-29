@@ -1,4 +1,7 @@
 node_modules
 .next
 .env.local
+.cache
+next-env.d.ts
+*.tsbuildinfo
 .DS_Store

@@ -9,7 +9,7 @@
 > You are building CrossSight, my solo entry for the Meta Global AI Developer Hackathon (Indie track, theme: Push the Frontier only). Read `crosssight-master-spec.md` FIRST — it is the single source of truth. Then read `crosssight-day1-project-atlas-pack.md` for today's work. If anything conflicts, the master spec wins.
 >
 > HARD RULES — breaking any of these can disqualify the project:
-> - Fresh repo only. Do NOT copy in any code from before Oct 26 — no CRM demo, no Elite Roofing demo, no saas-crm architecture, and NO code from Luke's VAULT project.
+> - Fresh repo only. Do NOT copy in any code from before Oct 26 — no CRM demo, no Elite Roofing demo, no saas-crm architecture, and NO code from any other person's project.
 > - Solo entrant, Indie track. AI agents are tools, not team members — never list them as team members.
 > - Only ONE file talks to the Meta Model API: `lib/meta.ts` (SAM 3.1, Muse Spark, Muse Image). No other file calls Meta directly.
 > - Cache every API result by input hash. Run once, reuse forever.

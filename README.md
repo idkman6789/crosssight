@@ -1,1 +1,48 @@
-# crosssight
+# CrossSight
+
+**Enterprise Truth Engine.** CrossSight cross-checks a project pack — contract, blueprint, site photo — finds where the sources disagree, proves it to the exact clause, blueprint sheet + region, or photo, and turns each finding into an action a person approves.
+
+It is an audit engine, not a document search box, a chatbot, or a photo describer. The flow is always: **masks → cross-check → finding → action → verification.**
+
+> **Fictional sample pack for demo only.** Project Atlas and every contract clause, blueprint, photo, and certificate in this repo are invented for this demo. No real company data.
+
+Theme: **Push the Frontier** · Models: **SAM 3.1**, **Muse Spark**, **Muse Image** via the Meta Model API.
+
+## Built During Hackathon
+
+- **Entrant:** solo entrant, Indie Developer track.
+- **Built:** Oct 29 – Nov 4, 2026, during the Meta Global AI Developer Hackathon, in a fresh repo. No code from before Oct 26 and no code from any other person's project.
+- **Tools:** built with Claude Code as a coding tool, directed and verified by the solo entrant. AI agents are tools, not team members.
+- **What was built (Day 1, mock mode):**
+  - Next.js App Router app with a five-step flow: Upload → Masks → Findings → Actions → Verify.
+  - `lib/meta.ts` — the only file that talks to the Meta Model API, with every result cached by input hash. On Day 1 it runs in mock mode only; live calls are not wired.
+  - Structured findings (JSON only) with citations, SAM mask references, impact, and an action packet that always starts at "Awaiting human approval".
+  - Human-only Approve / Dismiss / Assign, and fix-photo verification that reopens a finding on a failed check and closes it only when a person confirms.
+  - Change propagation teaser: change the riser cable spec (Type A → Type B) and list every pack item it touches, computed only from the pack. Where the pack proves fewer items than expected, it says "showing proven impacts only".
+- **What is fictional sample data:** the Project Atlas pack (Contract §4.2, Blueprint Sheet 7, Site Photo 12, the fix photo, certificate C-Atlas-014), the fictional images in `public/pack/` (Sheet 7, Photo 12, fix photo), and the mock masks and findings in `lib/mock.ts`.
+
+## Run it
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000. Mock mode is the default (`META_MODE=mock`), so no Meta credits are used.
+
+## Reproduce the demo
+
+1. **Upload** — click **Run audit**. SAM masks Blueprint Sheet 7 and Site Photo 12.
+2. **Masks** — the riser run R-1 region on both, side by side. Click **Run cross-check**.
+3. **Findings** — CS-001 (High): Contract §4.2 requires Type A, Sheet 7 routes Type B, Photo 12 shows Type C. CS-002 (Medium): certificate C-Atlas-014 expired; days expired are computed from the audit run date.
+4. **Change spec** (teaser) — change §4.2 from Type A to Type B and click **Apply change**. The affected blueprints, photos, cost, and certification are listed, each with its pack source.
+5. **Actions** — set an assignee and deadline, then Approve / Dismiss / Assign.
+6. **Verify** — submit the sample fix photo; a person closes the finding. Submit the "not replaced" sample and the finding reopens with new proof.
+
+## Guardrails
+
+CrossSight flags risks for an engineer, lawyer, or safety officer to review. It gives no legal advice, no safety verdict, and no invented cost figures, and it never approves or closes anything on its own. Low-confidence results say "needs human review".
+
+## Roadmap (not built)
+
+Full change propagation (schedules, budgets, more blueprints), video walkthrough keyframes, portfolio dashboard, ledger export, living twin, other industries and audit types, integrations, SSO/VPC.
