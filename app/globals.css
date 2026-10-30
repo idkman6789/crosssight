@@ -334,3 +334,18 @@ details.json pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-ra
   .kv { grid-template-columns: 1fr; }
   .content { padding: 16px; }
 }
+
+/* Living twin (placeholder timeline) */
+.twin-line { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.twin-stage { position: relative; min-width: 0; }
+.twin-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.twin-dot { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; background: var(--accent-soft); color: #1e3a8a; border: 1px solid #bfdbfe; }
+.twin-stage.flag .twin-dot { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+.twin-stage.done .twin-dot { background: #dcfce7; border-color: #86efac; color: #166534; }
+.twin-card { margin-bottom: 0; height: calc(100% - 36px); }
+.twin-img { width: 100%; height: 280px; object-fit: contain; display: block; background: #f1f5f9; border-radius: 6px; margin-bottom: 10px; }
+.twin-badge.flag { background: #fef3c7; color: #92400e; }
+.twin-badge.done { background: #dcfce7; color: #166534; }
+.twin-badge.wait { background: #f1f5f9; color: #475569; }
+.twin-status { margin: 10px 0 0; font-size: 13px; }
+@media (max-width: 860px) { .twin-line { grid-template-columns: 1fr; } }

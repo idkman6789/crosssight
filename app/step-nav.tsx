@@ -52,6 +52,13 @@ export function StepNav() {
           <span className="step-hint">4 fictional projects</span>
         </span>
       </Link>
+      <Link href="/twin" className={`step${pathname === "/twin" ? " active" : ""}`}>
+        <span className="step-num">◷</span>
+        <span>
+          <span className="step-label">Living twin</span>
+          <span className="step-hint">Timeline · placeholder</span>
+        </span>
+      </Link>
       <button className="btn ghost small reset" onClick={resetAudit}>
         Reset demo
       </button>
