@@ -4,9 +4,22 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { LEDGER_PLACEHOLDER, buildExport, checkChain, shortHash, type LedgerEntry } from "@/lib/ledger";
+import { buildPacket } from "@/lib/packet";
 import { useAudit } from "@/lib/store";
 
 import { NeedsStep } from "../ui";
+
+function downloadJson(data: unknown, filename: string) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
 
 export default function LedgerPage() {
   const audit = useAudit();
@@ -35,15 +48,11 @@ export default function LedgerPage() {
   const chain = checkChain(shown);
 
   function exportJson() {
-    const blob = new Blob([JSON.stringify(buildExport(entries), null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "crosssight-ledger-mock.json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    downloadJson(buildExport(entries), "crosssight-ledger-mock.json");
+  }
+
+  function exportPacket() {
+    downloadJson(buildPacket(audit), "crosssight-atlas-audit-packet-mock.json");
   }
 
   return (
@@ -61,8 +70,11 @@ export default function LedgerPage() {
           <Link className="btn ghost" href="/diagram">
             ← Corrected detail
           </Link>
-          <button className="btn" onClick={exportJson}>
+          <button className="btn ghost" onClick={exportJson}>
             Export ledger (JSON)
+          </button>
+          <button className="btn" onClick={exportPacket}>
+            Export audit packet (JSON)
           </button>
         </div>
       </div>
@@ -71,6 +83,12 @@ export default function LedgerPage() {
         <strong>{LEDGER_PLACEHOLDER}</strong> These entries come from this demo session on mock data. The hashes show
         the idea of a tamper-evident chain with a small non-cryptographic function. They are not a cryptographic
         proof system.
+      </div>
+
+      <div className="notice">
+        <strong>Audit packet.</strong> One click downloads CS-001 and CS-002 with their citations, the mock SAM regions
+        for Sheet 7 and Photo 12, the human approval history with timestamps, the change-spec note (proven impacts
+        only) and this ledger. It is a placeholder for the live export, built from mock data.
       </div>
 
       <div className="card" style={{ padding: 0, overflow: "hidden" }}>
