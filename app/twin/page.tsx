@@ -7,7 +7,7 @@ import { useAudit } from "@/lib/store";
 
 const PLACEHOLDER_LABEL = "Living-twin placeholder — mock timeline, no live video.";
 
-type Tone = "done" | "flag" | "wait";
+type Tone = "neutral" | "flag" | "ok" | "wait";
 
 interface Stage {
   n: number;
@@ -36,7 +36,7 @@ export default function TwinPage() {
       image: IMAGES.sheet7,
       alt: "Fictional Blueprint Sheet 7, riser run R-1",
       status: "Riser run R-1 is drawn with cable TYPE B. Contract §4.2 names Type A.",
-      tone: "done",
+      tone: "neutral",
       badge: "R-1 TYPE B",
     },
     {
@@ -62,14 +62,14 @@ export default function TwinPage() {
         : verified
           ? "Cable TYPE A, fix verified. CS-001 stays open until a human clicks Close finding."
           : "Cable TYPE A is the sample fix. Not verified yet — run the fix check on the Verify step. A finding is closed only by a human click.",
-      tone: closed ? "done" : verified ? "flag" : "wait",
+      tone: closed || verified ? "ok" : "wait",
       badge: closed ? "TYPE A · closed by human" : verified ? "TYPE A · fix verified" : "TYPE A · not yet verified",
     },
   ];
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
           <h1>
             Living twin <span className="badge conf">Teaser</span>
@@ -81,7 +81,7 @@ export default function TwinPage() {
             Verify
           </Link>
           <Link className="btn" href="/ledger">
-            Ledger →
+            Ledger
           </Link>
         </div>
       </div>

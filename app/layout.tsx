@@ -4,11 +4,12 @@ import { FICTIONAL_LABEL } from "@/data/atlas";
 import { getMetaMode } from "@/lib/meta";
 
 import { StepNav } from "./step-nav";
+import { TopBar } from "./top-bar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CrossSight",
-  description: "Enterprise Truth Engine — cross-checks contract, blueprint, and site photo.",
+  title: "CrossSight — Project Atlas",
+  description: "Cross-checks a project pack — contract, blueprint, and site photo — and proves every disagreement.",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,24 +18,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body>
-        <aside className="sidebar">
-          <div className="brand">
-            <span className="brand-mark">CS</span>
-            <span>
-              <strong>CrossSight</strong>
-              <span className="brand-sub">Truth Engine · Project Atlas</span>
-            </span>
+        <div className="banner" role="note">
+          {FICTIONAL_LABEL}
+        </div>
+        <TopBar mode={mode} />
+        <div className="shell">
+          <aside className="sidebar">
+            <StepNav mode={mode} />
+          </aside>
+          <div className="main">
+            <main className="content">{children}</main>
           </div>
-          <StepNav />
-          <div className={`mode mode-${mode}`}>
-            {mode === "mock" ? "Mock mode — no live Meta calls" : "Live mode"}
-          </div>
-        </aside>
-        <div className="main">
-          <div className="banner" role="note">
-            {FICTIONAL_LABEL}
-          </div>
-          <main className="content">{children}</main>
         </div>
       </body>
     </html>

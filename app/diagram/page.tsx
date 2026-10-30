@@ -19,7 +19,7 @@ export default function DiagramPage() {
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
           <h1>
             Corrected detail <span className="badge conf">Placeholder</span>
@@ -31,13 +31,13 @@ export default function DiagramPage() {
         </div>
         <div className="row">
           <Link className="btn ghost" href="/verify">
-            ← Back to Verify
+            Verify
           </Link>
           <Link className="btn ghost" href="/findings">
             Back to Findings
           </Link>
           <Link className="btn" href="/ledger">
-            Ledger →
+            Ledger
           </Link>
         </div>
       </div>

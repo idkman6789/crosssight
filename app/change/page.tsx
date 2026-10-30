@@ -66,31 +66,34 @@ export default function ChangeSpecPage() {
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
           <h1>
             Change spec <span className="badge conf">Teaser</span>
           </h1>
-          <p className="lede">One spec change in. Every pack item it touches out — computed from the pack only.</p>
+          <p className="lede">
+            Change one spec and list every pack item it touches. Computed from the pack only; nothing is listed that the
+            pack does not contain.
+          </p>
         </div>
         <Link className="btn" href="/actions">
-          Review actions →
+          Review actions
         </Link>
       </div>
 
-      <div className="card spec-card">
+      <div className="card">
         <div className="section-label" style={{ marginTop: 0 }}>Contract §4.2 — Riser cabling</div>
         <p className="spec-line">
           All riser runs in Project Atlas shall use fire-rated cable{" "}
           <span className={`spec-type${applied ? " old" : ""}`}>Type {CURRENT}</span>
           {applied && (
             <>
-              <span className="spec-arrow">→</span>
+              <span className="spec-arrow">changed to</span>
               <span className="spec-type new">Type {audit.specChange!.to}</span>
             </>
           )}
         </p>
-        <div className="row" style={{ marginTop: 14 }}>
+        <div className="row" style={{ marginTop: 10 }}>
           {applied ? (
             <button className="btn ghost" onClick={undo}>
               Undo change
@@ -135,18 +138,18 @@ export default function ChangeSpecPage() {
             </div>
           )}
 
-          {IMPACT_GROUPS.map((g, gi) => {
+          {IMPACT_GROUPS.map((g) => {
             const items = result.impacts.filter((i) => i.group === g);
             return (
-              <div key={g} className="card impact-group" style={{ animationDelay: `${gi * 120}ms` }}>
-                <div className="spread">
-                  <h2 style={{ margin: 0 }}>{g}</h2>
+              <div key={g} className="card impact-group">
+                <div className="panel-head" style={{ marginBottom: 0 }}>
+                  <h2>{g}</h2>
                   <span className="muted small">
                     {items.length} proven · {EXPECTED[g]} expected
                   </span>
                 </div>
                 {items.length === 0 ? (
-                  <p className="muted small" style={{ marginBottom: 0 }}>{EMPTY_GROUP[g]}</p>
+                  <p className="empty-line" style={{ marginTop: 10 }}>{EMPTY_GROUP[g]}</p>
                 ) : (
                   <ul className="impact-list">
                     {items.map((i) => (

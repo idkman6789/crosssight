@@ -57,7 +57,7 @@ export default function LedgerPage() {
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
           <h1>
             Ledger <span className="badge conf">Placeholder</span>
@@ -68,7 +68,7 @@ export default function LedgerPage() {
         </div>
         <div className="row">
           <Link className="btn ghost" href="/diagram">
-            ← Corrected detail
+            Corrected detail
           </Link>
           <button className="btn ghost" onClick={exportJson}>
             Export ledger (JSON)
@@ -85,13 +85,13 @@ export default function LedgerPage() {
         proof system.
       </div>
 
-      <div className="notice">
+      <div className="notice warn">
         <strong>Audit packet.</strong> One click downloads CS-001 and CS-002 with their citations, the mock SAM regions
         for Sheet 7 and Photo 12, the human approval history with timestamps, the change-spec note (proven impacts
         only) and this ledger. It is a placeholder for the live export, built from mock data.
       </div>
 
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      <div className="card table-wrap">
         <table className="proj-table ledger-table">
           <thead>
             <tr>
@@ -131,7 +131,7 @@ export default function LedgerPage() {
       <div className="card">
         <div className="spread">
           <div>
-            <span className={`badge ${chain.ok ? "state-closed" : "state-reopened"}`}>
+            <span className={`badge ${chain.ok ? "status-Approved" : "state-reopened"}`}>
               {chain.ok ? "Chain intact" : `Chain broken at entry ${chain.brokenAt}`}
             </span>
             <span className="small muted" style={{ marginLeft: 10 }}>

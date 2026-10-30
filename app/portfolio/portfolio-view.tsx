@@ -12,9 +12,10 @@ import {
   type PortfolioData,
   type ProjectStatus,
 } from "@/lib/portfolio";
+import { useAudit } from "@/lib/store";
 import type { Severity } from "@/lib/types";
 
-import { ConfidenceBadge, SeverityBadge } from "../ui";
+import { ConfidenceBadge, MockTag, SeverityBadge } from "../ui";
 
 const STATUS_CLASS: Record<ProjectStatus, string> = {
   "On track": "pstatus-ok",
@@ -26,6 +27,7 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
   const [project, setProject] = useState<string | null>(null);
   const [severity, setSeverity] = useState<Severity | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  const audit = useAudit();
 
   const totals = countBySeverity(data.entries);
   const common = mostCommonIssues(data.entries);
@@ -40,13 +42,13 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
           <h1>
-            Portfolio (Teaser) <span className="badge conf">Teaser</span>
+            Portfolio <span className="badge conf">Teaser</span> <MockTag />
           </h1>
           <p className="lede">
-            {data.projects.length} fictional projects, {data.entries.length} findings. Click a project or a severity to
+            {data.projects.length} fictional projects, {data.entries.length} findings. Select a project or a severity to
             filter.
           </p>
         </div>
@@ -64,16 +66,17 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
       </div>
 
       <div className="notice">
-        Mock data: these projects and findings are invented. Status comes from severity counts only — At risk: any
-        Critical or two or more High; Needs attention: one High or any Medium; On track: Low only. No dollar figures,
-        safety verdicts, or legal advice.
+        Mock data: these projects and findings are invented. Project status comes from severity counts only. At risk:
+        any Critical or two or more High. Needs attention: one High or any Medium. On track: Low only. Project Atlas
+        lists the same CS-001 and CS-002 as the audit; totals count findings as raised, so closing CS-001 in the audit
+        does not change them. Its current state in this session is shown beside each finding.
       </div>
 
       <div className="tile-grid">
         {SEVERITIES.map((s) => (
           <button
             key={s}
-            className={`tile sev-bar-${s}${severity === s ? " active" : ""}`}
+            className={`tile${severity === s ? " active" : ""}`}
             aria-pressed={severity === s}
             onClick={() => setSeverity(severity === s ? null : s)}
           >
@@ -88,7 +91,7 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
       </div>
 
       <div className="card">
-        <div className="section-label" style={{ marginTop: 0 }}>Most common issue type</div>
+        <div className="section-label">Most common issue type</div>
         <p style={{ margin: 0 }}>
           <strong>{common.types.map((t) => ISSUE_LABEL[t]).join(" · ")}</strong>
           <span className="muted">
@@ -98,7 +101,7 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
         </p>
       </div>
 
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      <div className="card table-wrap">
         <table className="proj-table">
           <thead>
             <tr>
@@ -117,7 +120,7 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
               const status = statusFromCounts(counts);
               const active = project === p.id;
               return (
-                <tr key={p.id} className={active ? "active" : ""} onClick={() => setProject(active ? null : p.id)}>
+                <tr key={p.id} className={`clickable${active ? " active" : ""}`} onClick={() => setProject(active ? null : p.id)}>
                   <td>
                     <button
                       className="link-btn"
@@ -145,19 +148,19 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
         </table>
       </div>
 
-      <div className="spread" style={{ margin: "20px 0 10px" }}>
+      <div className="spread" style={{ margin: "16px 0 8px", alignItems: "center" }}>
         <h2 style={{ margin: 0 }}>
-          Findings <span className="muted small">— showing {shown.length} of {data.entries.length}</span>
+          Findings <span className="muted small">showing {shown.length} of {data.entries.length}</span>
         </h2>
         <div className="row">
           {project && (
             <button className="badge status-Assigned chip" onClick={() => setProject(null)}>
-              Project: {nameOf(project)} ✕
+              Project: {nameOf(project)} (clear)
             </button>
           )}
           {severity && (
             <button className="badge conf chip" onClick={() => setSeverity(null)}>
-              Severity: {severity} ✕
+              Severity: {severity} (clear)
             </button>
           )}
         </div>
@@ -167,6 +170,7 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
 
       {shown.map(({ project_id, issue_type, finding: f }) => {
         const isOpen = open === f.finding_id;
+        const live = project_id === "atlas" && audit.findings ? (audit.findingState[f.finding_id] ?? "open") : null;
         const cites = [f.sources.contract, f.sources.blueprint, f.sources.site_photo, f.sources.certificate].filter(
           (s): s is NonNullable<typeof s> => Boolean(s),
         );
@@ -177,22 +181,35 @@ export function PortfolioView({ data }: { data: PortfolioData }) {
               <SeverityBadge severity={f.severity} />
               <span className="finding-title">{f.title}</span>
               <span className="badge conf">{nameOf(project_id)}</span>
-              <span className="muted">{isOpen ? "▾" : "▸"}</span>
+              {live && <span className={`badge state-${live}`}>Finding {live} in this session</span>}
+              <span className="toggle-text">{isOpen ? "Hide" : "Show"}</span>
             </button>
             {isOpen && (
               <div className="finding-body">
                 <div className="row" style={{ marginTop: 12 }}>
                   <ConfidenceBadge confidence={f.confidence} />
                   <span className="badge conf">{ISSUE_LABEL[issue_type]}</span>
-                  <span className="badge status-Awaiting">Action: {f.action_packet.status}</span>
+                  <span className="badge status-Awaiting">CrossSight status: {f.action_packet.status}</span>
                 </div>
-                <div className="section-label">Sources</div>
-                {cites.map((s) => (
-                  <div className="source" key={s.document + s.ref}>
-                    <span className="source-doc">{s.document}</span> <span className="muted">· {s.ref}</span>
-                    <p className="quote">{s.quote}</p>
-                  </div>
-                ))}
+                <div className="section-label">Citations</div>
+                <table className="cite-table" style={{ border: "1px solid var(--border)" }}>
+                  <thead>
+                    <tr>
+                      <th className="doc">Source</th>
+                      <th className="ref">Reference</th>
+                      <th>Cited text</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cites.map((s) => (
+                      <tr key={s.document + s.ref}>
+                        <td className="doc">{s.document}</td>
+                        <td className="ref">{s.ref}</td>
+                        <td className="cell-quote">{s.quote}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
                 <div className="section-label">Impact</div>
                 <dl className="kv">
                   <dt>Compliance</dt>

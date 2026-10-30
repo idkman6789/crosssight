@@ -8,7 +8,7 @@ import { verifyFix } from "@/lib/meta";
 import { addLedger, humanAction, recordAction, updateAudit, useAudit } from "@/lib/store";
 import type { VerifyResult } from "@/lib/types";
 
-import { ConfidenceBadge, MaskView, NeedsStep } from "../ui";
+import { ConfidenceBadge, MaskView, MockTag, NeedsStep, SeverityBadge } from "../ui";
 
 const FINDING_ID = "CS-001";
 
@@ -99,21 +99,27 @@ export default function VerifyPage() {
 
   return (
     <>
-      <div className="spread">
-        <h1>Fix verification</h1>
+      <div className="page-head">
+        <div>
+          <h1>
+            Fix verification <MockTag>Mock SAM check</MockTag>
+          </h1>
+          <p className="lede">
+            Submit a photo of the corrected riser run. The check compares the installed cable with Contract §4.2 using
+            recorded mock results, not a live SAM 3.1 call. A failed check reopens the finding with new proof. Closing it
+            always takes a person.
+          </p>
+        </div>
         <Link className="btn ghost" href="/diagram">
-          Corrected detail →
+          Corrected detail
         </Link>
       </div>
-      <p className="lede">
-        Upload a photo of the corrected riser run. SAM 3.1 masks the installed cable and checks it against Contract
-        §4.2. A failed check reopens the finding with new proof. Closing it always takes a person.
-      </p>
 
       <div className="card">
-        <div className="spread">
+        <div className="panel-head">
           <div className="row">
             <span className="finding-id">{FINDING_ID}</span>
+            <SeverityBadge severity={finding.severity} />
             <strong>{finding.title}</strong>
           </div>
           <div className="row">
@@ -121,7 +127,7 @@ export default function VerifyPage() {
             <span className={`badge status-${action.status.split(" ")[0]}`}>Action: {action.status}</span>
           </div>
         </div>
-        <p className="small" style={{ marginBottom: 0 }}>
+        <p style={{ marginBottom: 0 }}>
           Required: <strong>fire-rated cable Type A</strong> (Contract §4.2) for riser run R-1.
         </p>
         {action.status === "Awaiting human approval" && (
@@ -152,8 +158,8 @@ export default function VerifyPage() {
 
       {latest && shownMask && (
         <div className="card">
-          <div className="spread">
-            <h2 style={{ margin: 0 }}>Result</h2>
+          <div className="panel-head">
+            <h2>Result</h2>
             <div className="row">
               <span className={`badge verdict-${latest.verdict}`}>{VERDICT_TEXT[latest.verdict]}</span>
               <ConfidenceBadge confidence={latest.confidence} />
@@ -180,8 +186,8 @@ export default function VerifyPage() {
 
           {latest.verdict === "matches_spec" && state !== "closed" && (
             <div className="notice" style={{ marginTop: 14, marginBottom: 0 }}>
-              <div className="spread">
-                <span>The fix matches the spec. CrossSight does not close findings — a reviewer must confirm.</span>
+              <div className="spread" style={{ alignItems: "center" }}>
+                <span>The mock check reads this fix as matching the spec. CrossSight does not close findings: a reviewer must confirm.</span>
                 <button className="btn approve" onClick={closeFinding}>
                   Close finding
                 </button>
@@ -189,12 +195,12 @@ export default function VerifyPage() {
             </div>
           )}
           {latest.verdict === "does_not_match" && (
-            <div className="notice warn" style={{ marginTop: 14, marginBottom: 0 }}>
+            <div className="notice bad" style={{ marginTop: 14, marginBottom: 0 }}>
               Finding reopened with new proof. The installed cable still does not match Contract §4.2.
             </div>
           )}
           {latest.verdict === "needs_human_review" && (
-            <div className="notice warn" style={{ marginTop: 14, marginBottom: 0 }}>
+            <div className="notice review" style={{ marginTop: 14, marginBottom: 0 }}>
               Needs human review. No status was changed.
             </div>
           )}
@@ -207,7 +213,10 @@ export default function VerifyPage() {
           <ul className="history">
             {results.map((r, i) => (
               <li key={i}>
-                {i + 1}. {r.image} — {VERDICT_TEXT[r.verdict]} ({r.detected})
+                <span className="who">Check {i + 1}</span>
+                <span>
+                  {r.image} — {VERDICT_TEXT[r.verdict]} ({r.detected})
+                </span>
               </li>
             ))}
           </ul>

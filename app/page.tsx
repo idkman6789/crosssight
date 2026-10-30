@@ -56,11 +56,18 @@ export default function UploadPage() {
 
   return (
     <>
-      <h1>Upload project pack</h1>
-      <p className="lede">
-        CrossSight cross-checks a project pack — contract, blueprint, site photo — and proves every disagreement
-        to the exact clause, sheet region, or photo.
-      </p>
+      <div className="page-head">
+        <div>
+          <h1>Project pack</h1>
+          <p className="lede">
+            One audit: Contract vs. Blueprint vs. Site Photo. CrossSight finds where the three disagree and cites the
+            exact clause, sheet region, or photo region.
+          </p>
+        </div>
+        <button className="btn" onClick={runAudit} disabled={phase === "masking"}>
+          {phase === "masking" ? "Running…" : audit.auditRunAt ? "Re-run audit" : "Run audit"}
+        </button>
+      </div>
 
       <div
         className={`dropzone${over ? " over" : ""}`}
@@ -77,42 +84,53 @@ export default function UploadPage() {
         }}
       >
         <input ref={input} type="file" multiple hidden onChange={(e) => addFiles(e.target.files)} />
-        <strong>Drop the Project Atlas pack here</strong>
-        <p className="muted small" style={{ margin: "6px 0 0" }}>
-          Mock mode: dropped files are listed, but the audit runs on the built-in fictional Project Atlas pack.
+        <strong>Add files to the pack</strong>
+        <span className="muted small"> · drop files here or click to browse.</span>
+        <p className="muted small" style={{ margin: "4px 0 0" }}>
+          Mock mode: added files are listed, but the audit runs on the built-in fictional Project Atlas pack.
         </p>
         {audit.uploadedFiles.length > 0 && (
-          <p className="small" style={{ margin: "10px 0 0" }}>
+          <p className="small" style={{ margin: "6px 0 0" }}>
             Received: {audit.uploadedFiles.join(", ")}
           </p>
         )}
       </div>
 
-      <div className="card" style={{ marginTop: 16 }}>
-        <div className="spread">
-          <h2 style={{ margin: 0 }}>Project Atlas — pack contents</h2>
-          <button className="btn" onClick={runAudit} disabled={phase === "masking"}>
-            {phase === "masking" ? "Running…" : audit.auditRunAt ? "Re-run audit" : "Run audit"}
-          </button>
+      <div className="card table-wrap">
+        <div className="panel-head" style={{ margin: 0, borderRadius: 0 }}>
+          <h2>Project Atlas pack contents</h2>
+          <span className="small muted">{ATLAS_PACK.length} documents</span>
         </div>
-        <ul className="pack-list" style={{ marginTop: 12 }}>
-          {ATLAS_PACK.map((item) => (
-            <li key={item.id}>
-              <span className="kind">{item.kind}</span>
-              <span style={{ flex: 1 }}>
-                <strong>{item.title}</strong>
-                <p className="quote">{item.text}</p>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <table className="cite-table">
+          <thead>
+            <tr>
+              <th className="doc">Type</th>
+              <th>Document and text</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ATLAS_PACK.map((item) => (
+              <tr key={item.id}>
+                <td className="doc">{item.kind}</td>
+                <td>
+                  <strong>{item.title}</strong>
+                  <p className="quote">{item.text}</p>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="card">
+        <h2>Audit steps</h2>
         <ul className="progress">
           <li className={phase === "masking" ? "running" : phase === "done" || audit.masks ? "done" : ""}>
-            1. SAM 3.1 masks Blueprint Sheet 7 and Site Photo 12
+            1. Mock SAM masks Blueprint Sheet 7 and Site Photo 12
           </li>
-          <li>2. Muse Spark cross-checks contract vs. blueprint vs. photo (next step)</li>
+          <li>2. Mock cross-check of contract vs. blueprint vs. photo (next step)</li>
         </ul>
-        {error && <p className="badge status-Dismissed">{error}</p>}
+        {error && <p className="notice bad" style={{ marginTop: 8, marginBottom: 0 }}>{error}</p>}
       </div>
     </>
   );

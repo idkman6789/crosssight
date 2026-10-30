@@ -7,7 +7,7 @@ import { CERT_C_ATLAS_014, CONTRACT_4_2, PHOTO_12, SAM_PROMPTS, SHEET_7 } from "
 import { crossCheck } from "@/lib/meta";
 import { addLedger, updateAudit, useAudit, type AuditState } from "@/lib/store";
 
-import { MaskView, NeedsStep } from "../ui";
+import { MaskView, MockTag, NeedsStep } from "../ui";
 
 const CAPTIONS: Record<string, string> = {
   "/pack/sheet-7.png": "Blueprint Sheet 7 — riser diagram",
@@ -57,25 +57,31 @@ export default function MasksPage() {
 
   return (
     <>
-      <div className="spread">
+      <div className="page-head">
         <div>
-          <h1>SAM masks</h1>
+          <h1>
+            SAM masks <MockTag>Mock SAM output</MockTag>
+          </h1>
           <p className="lede">
-            SAM 3.1 segmented the same component — riser run R-1 — on the blueprint and in the site photo.
+            The same component — riser run R-1 — segmented on the blueprint and in the site photo. Region boxes below are
+            recorded mock results, not a live SAM 3.1 call. Click an image to enlarge it.
           </p>
         </div>
         <button className="btn" onClick={runCrossCheck} disabled={running}>
-          {running ? "Cross-checking…" : "Run cross-check →"}
+          {running ? "Cross-checking…" : "Run cross-check"}
         </button>
       </div>
-      {error && <p className="badge status-Dismissed">{error}</p>}
+      {error && <p className="notice bad">{error}</p>}
 
       <div className="grid-2">
         {audit.masks.map((mask) => (
           <div className="card" key={mask.image}>
-            <h2>{CAPTIONS[mask.image] ?? mask.image}</h2>
+            <div className="panel-head">
+              <h2>{CAPTIONS[mask.image] ?? mask.image}</h2>
+              <span className="small muted">{mask.regions.length} regions</span>
+            </div>
             <MaskView mask={mask} />
-            <table className="region-table">
+            <table className="region-table" style={{ marginTop: 12 }}>
               <thead>
                 <tr>
                   <th>Region</th>
@@ -97,7 +103,7 @@ export default function MasksPage() {
                 ))}
               </tbody>
             </table>
-            <p className="muted small" style={{ marginBottom: 0 }}>
+            <p className="caption">
               Prompts sent: {SAM_PROMPTS[mask.image]?.map((p) => `“${p}”`).join(", ")}
             </p>
           </div>

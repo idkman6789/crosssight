@@ -11,6 +11,11 @@ export function SeverityBadge({ severity }: { severity: Severity }) {
   return <span className={`badge sev-${severity}`}>{severity}</span>;
 }
 
+/** Marks any result that comes from mock data rather than a live model call. */
+export function MockTag({ children = "Mock data" }: { children?: React.ReactNode }) {
+  return <span className="badge mock-tag">{children}</span>;
+}
+
 export function ConfidenceBadge({ confidence }: { confidence: Confidence }) {
   return (
     <>
@@ -60,7 +65,7 @@ export function MaskView({
         <div className="lightbox" role="dialog" aria-modal="true" onClick={() => setZoom(false)}>
           <div onClick={(e) => e.stopPropagation()}>{view("zoomed")}</div>
           <button type="button" className="btn small lightbox-close" onClick={() => setZoom(false)}>
-            Close ✕
+            Close (Esc)
           </button>
         </div>
       )}
@@ -87,16 +92,12 @@ function MaskImage({
       <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
         {regions.map((r) => {
           const [x, y, w, h] = r.bbox;
+          const cls = tone ? ` ${tone}` : "";
           return (
-            <rect
-              key={r.id}
-              className={`mask-rect${tone ? ` ${tone}` : ""}`}
-              x={x}
-              y={y}
-              width={w}
-              height={h}
-              vectorEffect="non-scaling-stroke"
-            />
+            <g key={r.id}>
+              <rect className={`mask-rect-under${cls}`} x={x} y={y} width={w} height={h} vectorEffect="non-scaling-stroke" />
+              <rect className={`mask-rect${cls}`} x={x} y={y} width={w} height={h} vectorEffect="non-scaling-stroke" />
+            </g>
           );
         })}
       </svg>
@@ -117,10 +118,28 @@ function MaskImage({
   );
 }
 
+/** Time-ordered record of decisions on a finding. Empty until a person (or the mock checker) acts. */
+export function ActionHistory({ history }: { history: { at: string; event: string; actor?: string }[] }) {
+  if (history.length === 0) {
+    return <p className="empty-line">No decisions recorded yet. Every status change is a human click.</p>;
+  }
+  return (
+    <ul className="history">
+      {history.map((h, i) => (
+        <li key={i}>
+          <span className="when">{new Date(h.at).toLocaleString()}</span>
+          <span className="who">{h.actor ?? "Human reviewer"}</span>
+          <span>{h.event}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function NeedsStep({ text, href, cta }: { text: string; href: string; cta: string }) {
   return (
     <div className="card">
-      <p className="muted" style={{ marginTop: 0 }}>{text}</p>
+      <p className="muted">{text}</p>
       <Link className="btn" href={href}>{cta}</Link>
     </div>
   );

@@ -13,7 +13,7 @@ export interface HumanAction {
   status: HumanStatus;
   assignee: string;
   deadline: string;
-  history: { at: string; event: string }[];
+  history: { at: string; event: string; actor?: string }[];
 }
 
 export type FindingState = "open" | "closed" | "reopened";
@@ -98,7 +98,7 @@ export function recordAction(id: string, patch: Partial<HumanAction>, event?: st
   updateAudit((s) => {
     const cur = humanAction(s, id);
     const at = new Date().toISOString();
-    const history = event ? [...cur.history, { at, event }] : cur.history;
+    const history = event ? [...cur.history, { at, event, actor }] : cur.history;
     const next = { ...s, actions: { ...s.actions, [id]: { ...cur, ...patch, history } } };
     return event ? addLedger(next, { at, actor, action: event, finding_id: id }) : next;
   });
