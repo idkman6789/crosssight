@@ -484,3 +484,25 @@ details.json pre { background: var(--surface-2); color: var(--text); border: 1px
 }
 
 @media (max-width: 860px) { .paper { padding: 16px; } .paper .cite-table { table-layout: auto; } .paper .cite-table th, .paper .cite-table td { overflow-wrap: anywhere; } .doc-meta { grid-template-columns: 110px 1fr; } }
+
+/* ---------- structure: eyebrow, progress, step footer, skip link ---------- */
+
+body { font-variant-numeric: tabular-nums; }
+.skip-link { position: absolute; left: -999px; top: 0; background: var(--accent); color: #fff; padding: 6px 12px; z-index: 100; }
+.skip-link:focus { left: 8px; top: 8px; }
+
+.eyebrow { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 6px; }
+
+.progress-meter { margin: 2px 16px 8px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.progress-meter-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.progress-meter-row strong { color: var(--text); }
+.progress-meter-bar { height: 4px; background: var(--gray-bg); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.progress-meter-bar span { display: block; height: 100%; background: var(--accent); }
+
+.step-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--border); }
+.step-link { display: flex; flex-direction: column; text-decoration: none; font-weight: 600; padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); min-width: 140px; }
+.step-link:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.step-link.next { text-align: right; }
+.step-link-dir { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+@media print { .eyebrow, .step-footer, .skip-link { display: none !important; } }

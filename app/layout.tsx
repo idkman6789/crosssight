@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { FICTIONAL_LABEL } from "@/data/atlas";
 import { getMetaMode } from "@/lib/meta";
 
+import { PageEyebrow, StepFooter } from "./page-frame";
 import { StepNav } from "./step-nav";
 import { TopBar } from "./top-bar";
 import "./globals.css";
@@ -18,6 +19,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <div className="banner" role="note">
           {FICTIONAL_LABEL}
         </div>
@@ -27,7 +31,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <StepNav mode={mode} />
           </aside>
           <div className="main">
-            <main className="content">{children}</main>
+            <main className="content" id="main">
+              <PageEyebrow />
+              {children}
+              <StepFooter />
+            </main>
           </div>
         </div>
       </body>
