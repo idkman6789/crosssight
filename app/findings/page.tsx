@@ -7,7 +7,7 @@ import { CERT_EXPIRY, daysExpired } from "@/data/atlas";
 import { humanAction, useAudit, type HumanAction } from "@/lib/store";
 import { SEVERITY_RANK, type Finding, type MaskRef, type SamMask, type Source } from "@/lib/types";
 
-import { ActionHistory, ConfidenceBadge, MaskView, MockTag, NeedsStep, SeverityBadge } from "../ui";
+import { ActionHistory, ComparisonMatrix, ConfidenceBadge, EvidenceCrop, MaskView, MockTag, NeedsStep, SeverityBadge } from "../ui";
 
 export default function FindingsPage() {
   const audit = useAudit();
@@ -104,6 +104,7 @@ function FindingCard({
   ];
   const isCert = Boolean(f.sources.certificate);
   const hasEvidence = Boolean(f.sam_masks.blueprint || f.sam_masks.site_photo);
+  const threeWay = Boolean(f.sources.contract && f.sources.blueprint && f.sources.site_photo);
 
   return (
     <div className={`card finding sev-bar-${f.severity}`}>
@@ -123,6 +124,13 @@ function FindingCard({
               {action.status === "Awaiting human approval" ? "Awaiting human approval" : `Human decision: ${action.status}`}
             </span>
           </div>
+
+          {threeWay && (
+            <>
+              <div className="section-label">What each source says about riser run R-1</div>
+              <ComparisonMatrix />
+            </>
+          )}
 
           <div className={hasEvidence ? "finding-cols" : undefined}>
             <div>
@@ -177,6 +185,11 @@ function FindingCard({
                 </div>
                 <MaskThumb label="Blueprint" mref={f.sam_masks.blueprint} masks={masks} />
                 <MaskThumb label="Site photo" mref={f.sam_masks.site_photo} masks={masks} />
+                <div className="section-label" style={{ margin: 0 }}>
+                  Close-ups (read the marking)
+                </div>
+                <Closeups mref={f.sam_masks.blueprint} masks={masks} caption="Blueprint" />
+                <Closeups mref={f.sam_masks.site_photo} masks={masks} caption="Site photo" />
               </div>
             )}
           </div>
@@ -198,6 +211,21 @@ function FindingCard({
         </div>
       )}
     </div>
+  );
+}
+
+/** Close-ups of every other region on the same image the finding points at, e.g. the label or jacket marking. */
+function Closeups({ mref, masks, caption }: { mref: MaskRef | null; masks: SamMask[]; caption: string }) {
+  const mask = mref && masks.find((m) => m.image === mref.image);
+  if (!mref || !mask) return null;
+  return (
+    <>
+      {mask.regions
+        .filter((r) => r.id !== mref.region_id)
+        .map((r) => (
+          <EvidenceCrop key={r.id} mask={mask} region={r} tone="bad" caption={caption} />
+        ))}
+    </>
   );
 }
 

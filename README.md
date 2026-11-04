@@ -68,12 +68,13 @@ npm run typecheck
 |---|-------|------|---------------|
 | 1 | `/` | Upload | The fictional Project Atlas pack. **Run audit** produces the SAM masks. |
 | 2 | `/masks` | Masks | Riser run R-1 outlined on Blueprint Sheet 7 and Site Photo 12, with region boxes. Click an image to enlarge it, Escape to close. **Run cross-check** continues. |
-| 3 | `/findings` | Finding | CS-001 (High) and CS-002 (Medium), each with citations, mask references and impact. |
+| 3 | `/findings` | Finding | CS-001 (High) and CS-002 (Medium). CS-001 opens with a three-way comparison (§4.2 requires Type A, Sheet 7 drawn Type B, Photo 12 installed Type C), a citations table, mask thumbnails, and close-ups of the cable label and jacket marking. |
 | 4 | `/change` | Change spec (teaser) | Change §4.2 from Type A to Type B or C and list the pack items it touches. It shows proven impacts only (5 of 8 expected). |
 | 5 | `/actions` | Action | The action packet and RFI draft for each finding. Set an assignee and deadline, then Approve, Dismiss or Assign. Only a person does this. |
-| 6 | `/verify` | Verification | Submit the sample fix photo. A "not replaced" sample reopens the finding. A person clicks **Close finding**. |
+| 6 | `/verify` | Verification | Submit the sample fix photo. A "not replaced" sample reopens the finding. The result shows the original and submitted jacket markings side by side (Type C vs. Type A). A person clicks **Close finding**. |
 | 7 | `/diagram` | Diagram | A corrected-detail drawing of R-1 with cable Type A. It is a fixed in-app drawing, not a model image. |
 | 8 | `/ledger` | Ledger | The demo's audit trail, hash-linked, with a tamper demo, **Export ledger (JSON)** and **Export audit packet (JSON)**. |
+| 9 | `/packet` | Audit packet | A printable document of the whole audit (citations, region close-ups, approval history, change-spec note, ledger). **Print or save as PDF** from the page. Mock data, placeholder for the live export. |
 
 Teasers (sidebar, below the steps):
 

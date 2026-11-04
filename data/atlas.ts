@@ -23,6 +23,13 @@ export const IMAGES = {
   fixPhoto: "/pack/fix-photo.png",
 } as const;
 
+/** Pixel size of each pack image. Used only to crop evidence close-ups from the 0–1000 region boxes. */
+export const IMAGE_SIZE: Record<string, { w: number; h: number }> = {
+  [IMAGES.sheet7]: { w: 1280, h: 1920 },
+  [IMAGES.photo12]: { w: 1280, h: 1920 },
+  [IMAGES.fixPhoto]: { w: 1920, h: 1280 },
+};
+
 export const SAM_PROMPTS: Record<string, string[]> = {
   [IMAGES.sheet7]: ["riser cable run", "cable tray", "cable label"],
   [IMAGES.photo12]: ["installed riser cable", "cable jacket marking"],

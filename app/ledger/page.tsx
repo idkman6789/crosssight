@@ -70,6 +70,9 @@ export default function LedgerPage() {
           <Link className="btn ghost" href="/diagram">
             Corrected detail
           </Link>
+          <Link className="btn ghost" href="/packet">
+            Printable packet
+          </Link>
           <button className="btn ghost" onClick={exportJson}>
             Export ledger (JSON)
           </button>
@@ -88,7 +91,7 @@ export default function LedgerPage() {
       <div className="notice warn">
         <strong>Audit packet.</strong> One click downloads CS-001 and CS-002 with their citations, the mock SAM regions
         for Sheet 7 and Photo 12, the human approval history with timestamps, the change-spec note (proven impacts
-        only) and this ledger. It is a placeholder for the live export, built from mock data.
+        only) and this ledger. A printable version is at Printable packet (save as PDF). Both are placeholders for the live export, built from mock data.
       </div>
 
       <div className="card table-wrap">

@@ -8,7 +8,7 @@ import { verifyFix } from "@/lib/meta";
 import { addLedger, humanAction, recordAction, updateAudit, useAudit } from "@/lib/store";
 import type { VerifyResult } from "@/lib/types";
 
-import { ConfidenceBadge, MaskView, MockTag, NeedsStep, SeverityBadge } from "../ui";
+import { ConfidenceBadge, EvidenceCrop, MaskView, MockTag, NeedsStep, SeverityBadge } from "../ui";
 
 const FINDING_ID = "CS-001";
 
@@ -175,6 +175,29 @@ export default function VerifyPage() {
               <MaskView mask={shownMask} tone={latest.verdict === "matches_spec" ? "good" : "bad"} />
             </div>
           </div>
+          {original && latest.mask.image.startsWith("/pack/") && (
+            <>
+              <p className="section-label">Close-up of the jacket marking, original and submitted</p>
+              <div className="crop-pair">
+                {original.regions
+                  .filter((r) => r.id !== "photo12-r1")
+                  .map((r) => (
+                    <EvidenceCrop key={r.id} mask={original} region={r} tone="bad" caption="Original" />
+                  ))}
+                {latest.mask.regions
+                  .filter((r) => !r.id.endsWith("-r1"))
+                  .map((r) => (
+                    <EvidenceCrop
+                      key={r.id}
+                      mask={latest.mask}
+                      region={r}
+                      tone={latest.verdict === "matches_spec" ? "good" : "bad"}
+                      caption="Submitted"
+                    />
+                  ))}
+              </div>
+            </>
+          )}
           <dl className="kv" style={{ marginTop: 14 }}>
             <dt>Required</dt>
             <dd>{latest.required}</dd>
