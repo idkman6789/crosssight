@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { FICTIONAL_LABEL } from "@/data/atlas";
 import { getMetaMode } from "@/lib/meta";
@@ -11,6 +11,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "CrossSight — Project Atlas",
   description: "Cross-checks a project pack — contract, blueprint, and site photo — and proves every disagreement.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#12223a",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -27,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </div>
         <TopBar mode={mode} />
         <div className="shell">
-          <aside className="sidebar">
+          <aside className="sidebar" id="sidebar">
             <StepNav mode={mode} />
           </aside>
           <div className="main">

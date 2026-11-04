@@ -50,7 +50,7 @@ npm run build
 npm run start
 ```
 
-Open http://localhost:3000.
+Open http://localhost:3000. The layout adapts to phones, tablets and desktops; on a phone the sidebar opens from the Menu button.
 
 **4. Check the code (optional).**
 

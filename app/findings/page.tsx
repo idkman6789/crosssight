@@ -132,6 +132,16 @@ function FindingCard({
             </>
           )}
 
+          {hasEvidence && (
+            <>
+              <div className="section-label">Close-ups: read the label and the jacket marking</div>
+              <div className="crop-pair">
+                <Closeups mref={f.sam_masks.blueprint} masks={masks} caption="Blueprint" />
+                <Closeups mref={f.sam_masks.site_photo} masks={masks} caption="Site photo" />
+              </div>
+            </>
+          )}
+
           <div className={hasEvidence ? "finding-cols" : undefined}>
             <div>
               <div className="section-label">Citations</div>
@@ -185,11 +195,6 @@ function FindingCard({
                 </div>
                 <MaskThumb label="Blueprint" mref={f.sam_masks.blueprint} masks={masks} />
                 <MaskThumb label="Site photo" mref={f.sam_masks.site_photo} masks={masks} />
-                <div className="section-label" style={{ margin: 0 }}>
-                  Close-ups (read the marking)
-                </div>
-                <Closeups mref={f.sam_masks.blueprint} masks={masks} caption="Blueprint" />
-                <Closeups mref={f.sam_masks.site_photo} masks={masks} caption="Site photo" />
               </div>
             )}
           </div>
