@@ -41,6 +41,7 @@ export const GROUPS: Step["group"][] = ["Audit", "Resolve", "Records"];
 export const TEASERS = [
   { href: "/portfolio", label: "Portfolio", hint: "4 fictional projects", mark: "P" },
   { href: "/twin", label: "Living twin", hint: "Timeline placeholder", mark: "T" },
+  { href: "/idea", label: "Idea Builder", hint: "Plan from your idea", mark: "I" },
 ];
 
 export function stepIndex(pathname: string): number {

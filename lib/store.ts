@@ -6,6 +6,7 @@
 
 import { useSyncExternalStore } from "react";
 
+import type { IdeaState } from "./idea";
 import { appendEntry, type LedgerEntry, type LedgerFields } from "./ledger";
 import type { Finding, HumanStatus, SamMask, VerifyResult } from "./types";
 
@@ -30,6 +31,8 @@ export interface AuditState {
   specChange: { from: string; to: string; at: string } | null;
   /** Hash-linked trail of the demo's events (ledger teaser, mock data). */
   ledger: LedgerEntry[];
+  /** Idea Builder teaser: the intake form and the plan built from it. Independent of the audit. */
+  idea: IdeaState | null;
 }
 
 const KEY = "crosssight.audit.v1";
@@ -44,6 +47,7 @@ const EMPTY: AuditState = {
   findingState: {},
   specChange: null,
   ledger: [],
+  idea: null,
 };
 
 /** Returns the state with one more ledger entry linked to the previous one. */

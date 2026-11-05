@@ -84,6 +84,7 @@ Teasers (sidebar, below the steps):
 |-------|---------------|
 | `/twin` | Living twin: Blueprint (Sheet 7, R-1 TYPE B), Site photo (Photo 12, TYPE C, CS-001 flagged), Fix photo (TYPE A, fix verified, closed only by a human click). Three still images. |
 | `/portfolio` | Four fictional projects with fictional findings, totals by severity, a status per project from severity counts only, and click-to-filter. |
+| `/idea` | Idea Builder (mock organizer): type the idea you already have and get a step-by-step plan with phases, checklists, tools, materials, people, documents, questions and risks. Uses only what you type; anything missing is marked Needs your input. Saved in the browser, exportable as JSON, and it leads into the audit when you have documents. |
 
 ## What is mock, and what is still pending
 
