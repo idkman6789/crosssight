@@ -1,5 +1,7 @@
 # CrossSight
 
+**Live demo:** https://crosssight.serenellifranco684.workers.dev (mock mode, hosted on Cloudflare Workers)
+
 > **Fictional sample pack for demo only.** Project Atlas and every contract clause, blueprint, photo and certificate in this repo are invented for this demo. There is no real company or real data anywhere in it.
 
 ## What CrossSight is
@@ -107,6 +109,15 @@ The API key goes in `.env.local` as `META_API_KEY`, read only on the server. **`
 - `lib/ledger.ts`, `lib/packet.ts`, `lib/propagation.ts`, `lib/portfolio.ts` — ledger, audit packet, change propagation and portfolio logic.
 - `data/atlas.ts` — the fictional Project Atlas pack text and image paths.
 - `public/pack/` — the three fictional pack images: Sheet 7, Photo 12 and the fix photo.
+
+## Deploy (Cloudflare Workers)
+
+The app runs on Cloudflare Workers through the OpenNext adapter. No database or environment variables are needed in mock mode.
+
+```bash
+npm run cf:preview   # build and run locally in the Workers runtime
+npm run cf:deploy    # build and publish (needs `npx wrangler login` once)
+```
 
 ## Guardrails
 

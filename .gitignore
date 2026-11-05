@@ -5,3 +5,7 @@ node_modules
 next-env.d.ts
 *.tsbuildinfo
 .DS_Store
+
+.open-next
+.wrangler
+.dev.vars
